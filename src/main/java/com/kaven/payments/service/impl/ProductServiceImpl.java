@@ -3,9 +3,12 @@ package com.kaven.payments.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kaven.payments.dao.ProductMapper;
+import com.kaven.payments.enums.ProductStatusEnum;
+import com.kaven.payments.enums.ResponseEnum;
 import com.kaven.payments.pojo.Product;
 import com.kaven.payments.service.ICategoryService;
 import com.kaven.payments.service.IProductService;
+import com.kaven.payments.vo.ProductDetailVo;
 import com.kaven.payments.vo.ProductVo;
 import com.kaven.payments.vo.ResponseVo;
 import org.springframework.beans.BeanUtils;
@@ -43,6 +46,18 @@ public class ProductServiceImpl implements IProductService {
         PageInfo pageInfo = new PageInfo<>(productList);
         pageInfo.setList(productVoList);
         return ResponseVo.success(pageInfo);
+    }
+
+    @Override
+    public ResponseVo<ProductDetailVo> detail(Integer productId) {
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if(product.getStatus().equals(ProductStatusEnum.OFF_SALE.getCode())
+                || product.getStatus().equals(ProductStatusEnum.DETELE.getCode())){
+            return ResponseVo.error(ResponseEnum.PRODUCT_OFF_SALE_OR_DETELE);
+        }
+        ProductDetailVo productDetailVo = new ProductDetailVo();
+        BeanUtils.copyProperties(product , productDetailVo);
+        return ResponseVo.success(productDetailVo);
     }
 
     private ProductVo product2ProductVo(Product product){

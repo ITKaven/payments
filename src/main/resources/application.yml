@@ -4,6 +4,9 @@ spring:
     username: root
     password: ITkaven@123
     url: jdbc:mysql://47.112.7.219:3306/pay?characterEncoding=utf-8&useSSL=false
+  redis:
+    host: 127.0.0.1
+    port: 6379
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -12,3 +15,4 @@ mybatis:
 logging:
   pattern:
     console: "[%thread] %-5level %logger{36} - %msg%n"
+
