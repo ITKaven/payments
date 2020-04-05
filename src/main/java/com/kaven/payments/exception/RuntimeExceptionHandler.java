@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Objects;
-
 @ControllerAdvice
 public class RuntimeExceptionHandler {
 
@@ -23,9 +21,6 @@ public class RuntimeExceptionHandler {
     @ResponseBody
     public ResponseVo notValidExceptionHandle(MethodArgumentNotValidException e){
         BindingResult bindingResult = e.getBindingResult();
-        return ResponseVo.error(ResponseEnum.PARAM_ERROR ,
-                Objects.requireNonNull(bindingResult.getFieldError()).getField() + " " +
-                        bindingResult.getFieldError().getDefaultMessage()
-        );
+        return ResponseVo.error(ResponseEnum.PARAM_ERROR , bindingResult);
     }
 }

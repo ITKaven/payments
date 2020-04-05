@@ -4,12 +4,15 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ *    @NotBlank(message = "用户名不能为空")  用于String判断空格
+ *    @NotNull 用于引用型
+ *    @NotEmpty  用于集合
+ * */
 @Data
 public class UserRegisterForm {
 
-    @NotBlank //(message = "用户名不能为空")  //用于 String 判断空格
-//    @NotNull
-//    @NotEmpty  用于集合
+    @NotBlank
     private String username;
 
     @NotBlank

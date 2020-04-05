@@ -112,7 +112,7 @@ public class CartServiceImpl implements ICartService {
                 if(!cartProduct.getProductSelected()){
                     selectAll = false;
                 }
-                if(cartProduct.getProductSelected()){
+                else{
                     cartTotalPrice = cartTotalPrice.add(cartProductVo.getProductTotalPrice());
                 }
             }
