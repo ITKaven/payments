@@ -2,8 +2,11 @@ package com.kaven.payments.service;
 
 import com.kaven.payments.form.CartAddForm;
 import com.kaven.payments.form.CartUpdateForm;
+import com.kaven.payments.pojo.CartProduct;
 import com.kaven.payments.vo.CartVo;
 import com.kaven.payments.vo.ResponseVo;
+
+import java.util.List;
 
 public interface ICartService {
 
@@ -20,4 +23,6 @@ public interface ICartService {
     ResponseVo<CartVo> unSelectAll(Integer uid);
 
     ResponseVo<Integer> sum(Integer uid);
+
+    List<CartProduct> listForCart(Integer uid);
 }
