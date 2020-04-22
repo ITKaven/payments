@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements ICartService {
@@ -83,7 +85,13 @@ public class CartServiceImpl implements ICartService {
         HashOperations<String , String , String> opsForHash = redisTemplate.opsForHash();
         String redisKey = String.format(MallConst.CART_REDIS_KEY_TEMPLATE , uid);
         Map<String , String> entries = opsForHash.entries(redisKey);
+        Set<Integer> productIdSet = entries.entrySet().stream()
+                .map(e -> Integer.valueOf(e.getKey()))
+                .collect(Collectors.toSet());
 
+        List<Product> productList = productMapper.selectByProductIdSet(productIdSet);
+        Map<Integer , Product> map = productList.stream()
+                .collect(Collectors.toMap(Product::getId , e -> e));
         CartVo cartVo = new CartVo();
         List<CartProductVo> cartProductVoList = new ArrayList<>();
         boolean selectAll = true;
@@ -93,8 +101,8 @@ public class CartServiceImpl implements ICartService {
             Integer productId = Integer.valueOf(entry.getKey());
             CartProduct cartProduct = gson.fromJson(entry.getValue() , CartProduct.class);
 
-            // TODO 需要优化 ， 使用MySQL里面的in
-            Product product = productMapper.selectByPrimaryKey(productId);
+            // TODO 需要优化 ， 使用MySQL里面的in , 已解决
+            Product product = map.get(productId);
             if(product != null){
                 CartProductVo cartProductVo = new CartProductVo(productId ,
                         cartProduct.getQuantity() ,

@@ -12,8 +12,6 @@ public class Shipping {
 
     private String receiverName;
 
-    private String receiverPhone;
-
     private String receiverMobile;
 
     private String receiverProvince;
