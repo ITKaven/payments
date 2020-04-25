@@ -1,17 +1,23 @@
 package com.kaven.payments.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.kaven.payments.collectinfo.Clear;
+import com.kaven.payments.collectinfo.JingDong;
+import com.kaven.payments.service.ICategoryService;
 import com.kaven.payments.service.IProductService;
 import com.kaven.payments.vo.ProductDetailVo;
 import com.kaven.payments.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 public class ProductController {
+
+
+    @Autowired
+    private ICategoryService categoryService;
 
     @Autowired
     private IProductService productService;
@@ -26,5 +32,17 @@ public class ProductController {
     @GetMapping("/products/{productId}")
     public ResponseVo<ProductDetailVo> detail(@PathVariable Integer productId){
         return productService.detail(productId);
+    }
+
+    @PutMapping("/products/add")
+    public void add() throws IOException, InterruptedException {
+        JingDong jingDong = new JingDong();
+        jingDong.collect(categoryService , productService);
+    }
+
+    @PutMapping("/products/clear")
+    public void clear(){
+        Clear clear = new Clear();
+        clear.clear(categoryService , productService);
     }
 }

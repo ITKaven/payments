@@ -200,4 +200,14 @@
       </if>
     </where>
   </select>
+  <delete id="delete" parameterType="com.kaven.payments.pojo.Product">
+    delete from mall_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mall_product
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>

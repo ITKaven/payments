@@ -166,7 +166,7 @@
                                  product_id, product_name, product_image,
                                  current_unit_price, quantity, total_price)
     values
-    <foreach collection="orderItemList" index="index" item="item" separator=",">
+    <foreach collection="orderItemList" item="item" separator="," close=";">
       (
        #{item.userId} ,
        #{item.orderNo} ,

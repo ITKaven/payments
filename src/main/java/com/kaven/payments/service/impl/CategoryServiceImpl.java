@@ -44,6 +44,16 @@ public class CategoryServiceImpl implements ICategoryService {
         findSubCategoryId(id , resultSet , categories);
     }
 
+    @Override
+    public void insert(Category category) {
+        categoryMapper.insertSelective(category);
+    }
+
+    @Override
+    public Integer selectByName(String name) {
+        return categoryMapper.selectByName(name).getId();
+    }
+
     private void findSubCategoryId(Integer id , Set<Integer> resultSet ,
                                    List<Category> categories){
         for (Category category : categories){

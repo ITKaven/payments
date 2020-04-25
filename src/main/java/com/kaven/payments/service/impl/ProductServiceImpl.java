@@ -60,9 +60,37 @@ public class ProductServiceImpl implements IProductService {
         return ResponseVo.success(productDetailVo);
     }
 
+    @Override
+    public void insert(Product product) {
+        productMapper.insertSelective(product);
+    }
+
+    @Override
+    public List<Product> getProductsByCategoryIdSet(Set<Integer> categoryIdSet) {
+        List<Product> products = productMapper.selectByCategoryIdSet(categoryIdSet);
+        return products;
+    }
+
+    @Override
+    public void update(Product product) {
+        productMapper.updateByPrimaryKeySelective(product);
+    }
+
+    @Override
+    public void delete(Product product) {
+        productMapper.delete(product);
+    }
+
+    @Override
+    public Product getByName(String name) {
+        return productMapper.selectByName(name);
+    }
+
     private ProductVo product2ProductVo(Product product){
         ProductVo productVo = new ProductVo();
         BeanUtils.copyProperties(product , productVo);
         return productVo;
     }
+
+
 }
